@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='static')
 
-MODEL_PATH = 'iceberg.h5'
+MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'iceberg.h5')
 model = load_model(MODEL_PATH)
 
 def read_image(filename):
@@ -22,7 +22,7 @@ def read_image(filename):
 def index_view():
     return render_template('index.html')
 
-UPLOAD_FOLDER = os.path.join('static', 'uploads')
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static','uploads')
 
 if not os.path.isdir(UPLOAD_FOLDER):
     os.mkdir(UPLOAD_FOLDER)
@@ -50,4 +50,4 @@ def predict():
         return "Unable to read the file. Please check file extension"
 
 if __name__  == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
